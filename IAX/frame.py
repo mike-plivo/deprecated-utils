@@ -71,6 +71,8 @@ IAX_UNSUPPORT = 0x21
 # value >> pos & 0x1 (return bit value 1 or 0)
 # pos from 0 to 31
 
+# to_binary : "".join([ str(INTEGER >> x & 0x1) for x in xrange(32) ])
+
 
 
 class FullFrame:
@@ -79,16 +81,23 @@ class FullFrame:
     self.source_callno = None # 15 bit unsigned int
     self.restransmitted = 0 # 1 bit, 1 if retransmitted else 0
     self.dest_callno = None # 15 bit unsigned int
+
     self.timestamp = 0 # 32 bit unsigned int
+
     self.oseqno = 0 # 8 bit, outbound stream
     self.iseqno = 0 # 8 bit, inbound stream
+
     self.frame_type = None # 8 bit
     self.subclass_c = 0 # 1 bit, if 1, subclass = subclass**2
     self.subclass = None # 7 bit
+
     self.data = None
 
   def serialize(self):
     #struct
+    a = 0
+    a |= self.type
+
     pass
 
   def unserialize(self):
@@ -100,7 +109,9 @@ class MiniFrame:
   def __init__(self):
     self.type = IAX_MINI_FRAME # 1 bit 
     self.source_callno = None # 15 bit unsigned int
+
     self.timestamp = None # 16 bit unsigned int, only low bits of timestamp
+    
     self.data = None
 
   def serialize(self):
