@@ -74,12 +74,16 @@ IAX_UNSUPPORT = 0x21
 # to_binary : "".join([ str(8 >> x & 0x1) for x in xrange(31,-1,-1) ])
 
 
+def to_binary(int32):
+  return "".join([ str(int32 >> x & 0x1) for x in xrange(31,-1,-1) ])
+
+
 
 class FullFrame:
   def __init__(self):
     self.type = IAX_FULL_FRAME # 1 bit 
     self.source_callno = None # 15 bit unsigned int
-    self.restransmitted = 0 # 1 bit, 1 if retransmitted else 0
+    self.retransmitted = 0 # 1 bit, 1 if retransmitted else 0
     self.dest_callno = None # 15 bit unsigned int
 
     self.timestamp = 0 # 32 bit unsigned int
