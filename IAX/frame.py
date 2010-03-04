@@ -1,6 +1,6 @@
 # frames
-IAX_FULL_FRAME = 1
-IAX_MINI_FRAME = 0
+IAX_FULL_FRAME = 0x1
+IAX_MINI_FRAME = 0x0
 
 # frames type
 IAX_TYPE_DTMF = 0x01
@@ -72,6 +72,7 @@ IAX_UNSUPPORT = 0x21
 # pos from 0 to 31
 
 
+
 class FullFrame:
   def __init__(self):
     self.type = IAX_FULL_FRAME # 1 bit 
@@ -87,12 +88,24 @@ class FullFrame:
     self.data = None
 
   def serialize(self):
-    # 'c
-    struct.pack('c')
+    #struct
+    pass
+
+  def unserialize(self):
+    pass
+
+
 
 class MiniFrame:
   def __init__(self):
     self.type = IAX_MINI_FRAME # 1 bit 
     self.source_callno = None # 15 bit unsigned int
-    self.timestamp = None # 16 bit unsigned int, only ow bits of timestamp
+    self.timestamp = None # 16 bit unsigned int, only low bits of timestamp
     self.data = None
+
+  def serialize(self):
+    #struct
+    pass
+
+  def unserialize(self):
+    pass
