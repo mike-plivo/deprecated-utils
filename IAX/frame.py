@@ -71,7 +71,7 @@ IAX_UNSUPPORT = 0x21
 # value >> pos & 0x1 (return bit value 1 or 0)
 # pos from 0 to 31
 
-# to_binary : "".join([ str(INTEGER >> x & 0x1) for x in xrange(32) ])
+# to_binary : "".join([ str(8 >> x & 0x1) for x in xrange(31,-1,-1) ])
 
 
 
