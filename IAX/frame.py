@@ -1,6 +1,6 @@
 # frames
-IAX_FULL_FRAME = 0x1
-IAX_MINI_FRAME = 0x0
+IAX_FULL_FRAME = 1
+IAX_MINI_FRAME = 0
 
 # frames type
 IAX_TYPE_DTMF = 0x01
