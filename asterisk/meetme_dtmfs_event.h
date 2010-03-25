@@ -65,6 +65,9 @@ static void *command_thread(void *data) {
 
 	ast_log(LOG_DEBUG, "MeetmeDtmf: Channel:%s Conf:%s Usernum:%s DtmfsPressed:%s Script:%s Extras:%s\n", argv[1], argv[3], argv[4], argv[2], argv[0], S_OR(argv[5], ""));
 
+
+	/* TODO use of ast_safe_system will be more ast friendly ;) */
+
         /* Block SIGHUP during the fork - prevents a race */
         sigfillset(&signal_set);
         pthread_sigmask(SIG_BLOCK, &signal_set, &old_set);
