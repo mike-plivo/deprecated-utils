@@ -1,6 +1,7 @@
 import cc
+import cc.web
 
-class Actions:
+class Process(cc.web.QueryHandler):
   def do_root(self, request):
     if request.has_json():
       return (200, request.format_json({'version':str(cc.__version__)}))

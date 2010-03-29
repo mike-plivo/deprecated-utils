@@ -1,7 +1,6 @@
 import string
 import cgi
 import cc
-import cc.actions as actions
 
 try:
   import json
@@ -93,7 +92,7 @@ class Request(object):
 
 
 
-class QueryHandler(actions.Actions):
+class QueryHandler(object):
   def __init__(self, environ):
     self._environ = environ
     self._pinfo = environ['PATH_INFO']
@@ -106,7 +105,7 @@ class QueryHandler(actions.Actions):
   def _has_action(self):
     return self._action in dir(self)
 
-  def _run(self):
+  def run(self):
     action = getattr(self, self._action, None)
     if not action:
       return (code2str(404), 'Not found')
@@ -117,11 +116,6 @@ class QueryHandler(actions.Actions):
       except KeyError, err:
         return (code2str(500), "Missing argument %s\n" % str(err))
 
-
-
-def dispatch(environ):
-    h = QueryHandler(environ)
-    return h._run()
 
 
 
