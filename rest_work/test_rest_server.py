@@ -3,6 +3,7 @@ from flask import Flask
 from plivo.core.freeswitch.inboundsocket import InboundEventSocket
 from config import Config
 from api import RestApi
+import urls
 
 
 
@@ -21,15 +22,10 @@ class RestServer(InboundEventSocket, RestApi):
         fs_port = int(fs_port)
         fs_password = self.config['FS_PASSWORD']
         InboundEventSocket.__init__(self, fs_host, fs_port, fs_password, filter='ALL')
-        # TODO self.connect()
         # expose api functions to flask app
-        for func in dir(RestApi):
-            if func[0] != '_':
-                fn = getattr(self, func)
-                self.app.add_url_rule('/'+func, func, fn)
-                # if index, root path is redirected to index endpoint
-                if func == 'index':
-                    self.app.add_url('/', func, fn)
+        for path, func in urls.URLS.iteritems():
+            fn = getattr(self, func.__name__)
+            self.app.add_url_rule(path, func.__name__, fn)
         # create wsgi server
         http_host, http_port = self.config['HTTP_ADDRESS'].split(':', 1)
         http_port = int(http_port)
@@ -39,6 +35,7 @@ class RestServer(InboundEventSocket, RestApi):
         # run
         self.app.debug = True
         #self.app.run()
+        self.connect()
         self.http_server.serve_forever()
 
 
