@@ -24,7 +24,7 @@ class RestServer(InboundEventSocket, RestApi):
         # expose api functions to flask app
         for path, func in urls.URLS.iteritems():
             fn = getattr(self, func.__name__)
-            self.app.add_url_rule(path, func.__name__, fn)
+            self.app.add_url_rule(path, func.__name__, fn, methods=['GET', 'POST'])
         # create wsgi server
         http_host, http_port = self.app.config['HTTP_ADDRESS'].split(':', 1)
         http_port = int(http_port)
