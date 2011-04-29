@@ -22,9 +22,10 @@ class RestServer(InboundEventSocket, RestApi):
         fs_password = self.app.config['FS_PASSWORD']
         InboundEventSocket.__init__(self, fs_host, fs_port, fs_password, filter='ALL')
         # expose api functions to flask app
-        for path, func in urls.URLS.iteritems():
+        for path, func_desc in urls.URLS.iteritems():
+            func, methods = func_desc
             fn = getattr(self, func.__name__)
-            self.app.add_url_rule(path, func.__name__, fn, methods=['GET', 'POST'])
+            self.app.add_url_rule(path, func.__name__, fn, methods=methods)
         # create wsgi server
         http_host, http_port = self.app.config['HTTP_ADDRESS'].split(':', 1)
         http_port = int(http_port)
@@ -34,7 +35,7 @@ class RestServer(InboundEventSocket, RestApi):
         # run
         self.app.debug = True
         #self.app.run()
-        self.connect()
+        #self.connect()
         self.http_server.serve_forever()
 
 
